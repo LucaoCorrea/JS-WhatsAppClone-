@@ -4,7 +4,7 @@ class WhatsAppController {
     this.loadElements();
     this.initEvents();
   }
-
+//carregando elementos 
   loadElements() {
 
     this.el = {};
@@ -17,6 +17,7 @@ class WhatsAppController {
 
   }
 
+//usando ProtoType -  criação de um obj atraves de um modelo original
   elementsProtoType() {
 
     Element.prototype.hide = function () {
@@ -76,6 +77,8 @@ class WhatsAppController {
     }
   }
 
+
+//elementos de inicializacao
   initEvents() {
     this.el.myPhoto.on('click', e => {
       this.closeAllLeftPanel();
@@ -110,6 +113,7 @@ class WhatsAppController {
     });
   }
 
+//evento de fechar paneis esquerdos
   closeAllLeftPanel() {
     this.el.panelAddContact.hide();
     this.el.panelEditProfile.hide();
