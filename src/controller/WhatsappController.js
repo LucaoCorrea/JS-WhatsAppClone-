@@ -4,7 +4,7 @@ class WhatsAppController {
     this.loadElements();
     this.initEvents();
   }
-//carregando elementos 
+  //carregando elementos 
   loadElements() {
 
     this.el = {};
@@ -17,7 +17,7 @@ class WhatsAppController {
 
   }
 
-//usando ProtoType -  criação de um obj atraves de um modelo original
+  //usando ProtoType -  criação de um obj atraves de um modelo original
   elementsProtoType() {
 
     Element.prototype.hide = function () {
@@ -75,10 +75,25 @@ class WhatsAppController {
     Element.prototype.hasClass = function (name) {
       return this.classList.contains(name);
     }
+
+    HTMLFormElement.prototype.getForm = function () {
+      return new FormData(this);
+    }
+
+    HTMLFormElement.prototype.toJSON = function () {
+      let json = {};
+
+      this.getForm().forEach((value, key) => {
+        json[key] = value;
+      });
+
+      return json;
+    }
   }
 
 
-//elementos de inicializacao
+
+  //elementos de inicializacao
   initEvents() {
     this.el.myPhoto.on('click', e => {
       this.closeAllLeftPanel();
@@ -111,9 +126,183 @@ class WhatsAppController {
         this.el.panelAddContact.hide();
       }, 300);
     });
+
+    //Edit Profile
+    this.el.photoContainerEditProfile.on('click', e => {
+      this.el.inputProfilePhoto.click();
+    });
+
+    //Input Name change
+    this.el.inputNamePanelEditProfile.on('keypress', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.el.btnSavePanelEditProfile.click();
+      }
+    });
+
+    //Save Name
+    this.el.btnSavePanelEditProfile.on('click', e => {
+      console.log(this.el.inputNamePanelEditProfile.innerHTML);
+    });
+
+    //Add Contact
+    this.el.formPanelAddContact.on('submit', e => {
+      e.preventDefault();
+
+      let formData = new FormData(this.el.formPanelAddContact);
+    });
+
+    //Open Contact Box
+    this.el.contactsMessagesList.querySelectorAll('.contact-item').forEach(item => {
+      item.on('click', e => {
+
+        this.el.main.hide();
+        this.el.main.css({
+          display: 'flex'
+        });
+      });
+    });
+
+    //Open Menu in Contact Box
+    this.el.btnAttach.on('click', e => {
+      e.stopPropagation();
+      this.el.menuAttach.addClass('open');
+      document.addEventListener('click', this.closeMenuAttach.bind(this));
+    });
+
+    //photo
+    this.el.btnAttachPhoto.on('click', e => {
+      this.el.inputPhoto.click();
+    });
+
+    this.el.inputPhoto.on('change', e => {
+      console.log(this.el.inputPhoto.files);
+      this.el.inputPhoto.files.forEach(file => {
+        console.log(file);
+      });
+    });
+
+    //camera
+    this.el.btnAttachCamera.on('click', e => {
+      this.el.panelMessagesContainer.hide();
+      this.el.panelCamera.addClass('open');
+      this.el.panelCamera.style.height = 'calc(120% - 100px)';
+    });
+
+    this.el.btnClosePanelCamera.on('click', e => {
+      this.closeAllMainPanel();
+      this.el.panelMessagesContainer.show();
+    });
+
+    this.el.btnTakePicture.on('click', e => {
+      console.log('take picture');
+    });
+
+    //document
+    this.el.btnAttachDocument.on('click', e => {
+      this.closeAllMainPanel();
+      this.el.panelDocumentPreview.addClass('open');
+      this.el.panelDocumentPreview.style.height = 'calc(120% - 100px)';
+    });
+
+    this.el.btnClosePanelDocumentPreview.on('click', e => {
+      this.closeAllMainPanel();
+      this.el.panelMessagesContainer.show();
+    });
+
+    this.el.btnSendDocument.on('click', e=>{
+      console.log('send document');
+    })
+
+    //contact
+    this.el.btnAttachContact.on('click', e => {
+      this.el.modalContacts.show();
+    });
+
+    this.el.btnCloseModalContacts.on('click', e=>{
+      this.el.modalContacts.hide();
+    });
+
+    //microfone
+    this.el.btnSendMicrophone.on('click', e=>{
+      this.el.recordMicrophone.show();
+      this.el.btnSendMicrophone.hide();
+      this.startRecordMicrophoneTime();
+    });
+
+    this.el.btnCancelMicrophone.on('click', e=>{
+      this.closeRecordMicrophone();
+    });
+
+    this.el.btnFinishMicrophone.on('click', e=>{
+      this.closeRecordMicrophone();
+    });
+
+    //Text
+
+    this.el.inputText.on('keypress', e=>{
+      if(e.key === 'Enter' && !e.ctrlKey){
+        e.preventDefault();
+        this.el.btnSend.click();
+      }
+    });
+
+    this.el.inputText.on('keyup', e=>{
+      if(this.el.inputText.innerHTML.length){
+          this.el.inputPlaceholder.hide();
+          this.el.btnSendMicrophone.hide();
+          this.el.btnSend.show();
+      }else{
+        this.el.inputPlaceholder.show();
+        this.el.btnSendMicrophone.show();
+        this.el.btnSend.hide();
+      }
+    });
+
+    // btn send msg
+    this.el.btnSend.on('click', e=>{
+      console.log(this.el.inputText.innerHTML);
+    });
+
+    //emoji
+    this.el.btnEmojis.on('click', e=>{
+      this.el.panelEmojis.toggleClass('open');
+    });
+
+    this.el.panelEmojis.querySelectorAll('.emojik').forEach(emoji=>{
+      emoji.on('click', e=>{
+        console.log(emoji.dataset.unicode);
+      });
+    })
+}
+
+startRecordMicrophoneTime(){
+  let start = Date.now();
+  this._recordMicrophoneInterval = setInterval(()=> {
+    this.el.recordMicrophoneTimer.innerHTML =   Format.toTime(Date.now() - start);
+  }, 100);
+}
+
+  closeRecordMicrophone(){
+    this.el.recordMicrophone.hide();
+    this.el.btnSendMicrophone.show();
+    clearInterval(this._recordMicrophoneInterval);
   }
 
-//evento de fechar paneis esquerdos
+  //fechar todos os paneis
+  closeAllMainPanel() {
+    this.el.panelMessagesContainer.hide();
+    this.el.panelDocumentPreview.removeClass('open');
+    this.el.panelCamera.removeClass('open');
+  }
+
+  //fechar painel
+  closeMenuAttach(e) {
+    document.removeEventListener('click', this.closeMenuAttach);
+    console.log('remove menu');
+  }
+
+  //evento de fechar paneis esquerdos
   closeAllLeftPanel() {
     this.el.panelAddContact.hide();
     this.el.panelEditProfile.hide();
