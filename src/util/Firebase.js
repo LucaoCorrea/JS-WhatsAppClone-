@@ -3,6 +3,8 @@ import firebase from "firebase";
 
 import "firebase/auth";
 import "firebase/firestore";
+
+
 export class Firebase {
   constructor() {
     this._config = {
@@ -16,36 +18,58 @@ export class Firebase {
     };
     this.init();
   }
+
   init() {
-    if (!window.initializedFirebase) {
-      firebase.initializeApp(this._config)
-      firebase.firestore().settings({
-        timestampsInSnapshots: true
-      })
-      window.initializedFirebase = true;
+
+    if (!window._initializedFirebase) {
+
+      firebase.initializeApp(this._config);
+
+      window._initializedFirebase = true;
+
     }
+
+
   }
 
   static db() {
+
     return firebase.firestore();
+
   }
+
   static hd() {
+
     return firebase.storage();
+
   }
+
   initAuth() {
+
     return new Promise((s, f) => {
+
       let provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        .then(result => {
-          let token = result.credential.accessToken;
-          let user = result.user;
-          s(
-            user,
-            token);
-        })
-        .catch(err => {
-          f(err);
+
+      firebase.auth().signInWithPopup(provider).then(result => {
+
+        let token = result.credential.accessToken;
+
+        let user = result.user;
+
+        s({
+
+          user,
+          token
+
         });
+
+      }).catch(err => {
+
+        f(err);
+
+      });
+
     });
   }
+
 }
