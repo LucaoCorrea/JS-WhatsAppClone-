@@ -627,7 +627,7 @@ export class WhatsAppController {
             this.el.panelMessagesContainer.hide();
             this.el.panelCamera.addClass('open');
             this.el.panelCamera.sleep(100, () => {
-                this.el.panelCamera.style.height = 'calc(100% - 120px)';
+                this.el.panelCamera.style.height = 'calc(120% - 120px)';
             });
 
             this._cameraController = new CameraController(this.el.videoCamera);
@@ -719,7 +719,7 @@ export class WhatsAppController {
                 this.el.panelMessagesContainer.hide();
                 this.el.panelDocumentPreview.addClass('open');
                 this.el.panelDocumentPreview.sleep(500, () => {
-                    this.el.panelDocumentPreview.style.height = 'calc(100% - 120px)';
+                    this.el.panelDocumentPreview.style.height = 'calc(120% - 120px)';
                 });
 
 
