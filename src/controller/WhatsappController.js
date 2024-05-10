@@ -500,6 +500,7 @@ export class WhatsAppController {
         });
 
         this.el.btnSavePanelEditProfile.on('click', event => {
+        
 
             let name = this.el.inputNamePanelEditProfile.innerHTML;
 

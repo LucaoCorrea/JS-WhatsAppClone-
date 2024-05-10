@@ -5,6 +5,8 @@ export class Firebase {
     this.init();
   }
 
+  
+
   init() {
     if (!window._initializedFirebase) {
       firebase.initializeApp({
