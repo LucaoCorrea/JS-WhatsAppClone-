@@ -11,9 +11,9 @@ export class Firebase {
     if (!window._initializedFirebase) {
       firebase.initializeApp({
         apiKey: "AIzaSyAACjmnyojeVEBl6rFrELA7HjEe-L_S-GE",
-        authDomain: "whatsappclone-4e1db.firebaseapp.com",
+        authDomain: "https://lucaocorrea.github.io/JS-WhatsAppClone-/",
         projectId: "whatsappclone-4e1db",
-        storageBucket: "whatsappclone-4e1db.appspot.com",
+        storageBucket: "https://lucaocorrea.github.io/JS-WhatsAppClone-/",
         messagingSenderId: "447062061788",
         appId: "1:447062061788:web:5eaf9d6f0ff7e56b36ba19",
         measurementId: "G-QZGYXG8HZR"
