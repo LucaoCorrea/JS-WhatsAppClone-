@@ -2897,7 +2897,7 @@
         if (!window._initializedFirebase) {
           __WEBPACK_IMPORTED_MODULE_0_firebase__["initializeApp"]({
             apiKey: "AIzaSyAACjmnyojeVEBl6rFrELA7HjEe-L_S-GE",
-            authDomain: "whatsappclone-4e1db.firebaseapp.com",
+            authDomain: "lucaocorrea.github.io",
             projectId: "whatsappclone-4e1db",
             storageBucket: "whatsappclone-4e1db.appspot.com",
             messagingSenderId: "447062061788",
